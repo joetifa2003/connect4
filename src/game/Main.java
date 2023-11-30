@@ -17,6 +17,7 @@ public class Main extends JFrame {
 
         setSize(1280, 720);
         setLocationRelativeTo(null);
+        setResizable(false);
         setVisible(true);
     }
 
