@@ -45,12 +45,21 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
 
             for (int x = 0; x < row.length; x++) {
 
+
                 gl.glColor3d(1, 1, 1);
                 if (hoveredOnColumn.orElse(-1) == x) {
                     gl.glColor3d(1, 1, 0);
                     drawTri(gl, new Vector( x*CELL_SIZE + 4.5 * CELL_SIZE, 1 * CELL_SIZE + 6.5 * CELL_SIZE), CELL_SIZE);
                 }
 
+                drawRect(gl, new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, y * CELL_SIZE + 1.5 * CELL_SIZE), CELL_SIZE);
+                gl.glColor3d(1, 1, 1);
+
+
+                gl.glColor3d(1, 1, 1);
+                if (hoveredOnColumn.orElse(-1) == x) {
+                    gl.glColor3d(1, 1, 0);
+                }
                 drawRect(gl, new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, y * CELL_SIZE + 1.5 * CELL_SIZE), CELL_SIZE);
                 gl.glColor3d(1, 1, 1);
 
@@ -71,6 +80,7 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
     }
 
 
+
     public void drawTri(GL gl, Vector pos, double size) {
         gl.glPushMatrix();
         gl.glTranslated(pos.x(), pos.y(), 0);
@@ -81,6 +91,7 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
         gl.glEnd();
         gl.glPopMatrix();
     }
+
 
     @Override
     public void mouseMoved(MouseEvent e) {
