@@ -2,8 +2,8 @@ package game;
 
 import com.sun.opengl.util.FPSAnimator;
 
-import javax.swing.*;
 import javax.media.opengl.GLCanvas;
+import javax.swing.*;
 import java.awt.*;
 
 public class Main extends JFrame {
