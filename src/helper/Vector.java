@@ -2,10 +2,25 @@ package helper;
 
 import java.awt.event.MouseEvent;
 
-public record Vector(double x, double y) {
+public class Vector {
+    private final double x;
+    private final double y;
+
+    public Vector(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public Vector(MouseEvent e) {
         this(e.getX(), e.getY());
+    }
+
+    public double getX() {
+        return this.x;
+    }
+
+    public double getY() {
+        return this.y;
     }
 
     public Vector add(Vector other) {
@@ -17,7 +32,7 @@ public record Vector(double x, double y) {
     }
 
     public Vector add(double t) {
-        return new Vector(this.x + t, this.y +t);
+        return new Vector(this.x + t, this.y + t);
     }
 
     public Vector sub(Vector other) {
@@ -38,7 +53,7 @@ public record Vector(double x, double y) {
             return this;
         }
 
-        return new Vector(this.x/len, this.y/len);
+        return new Vector(this.x / len, this.y / len);
     }
 
     public Vector setX(double x) {
