@@ -21,7 +21,7 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
 
     Optional<Integer> hoveredOnColumn = Optional.empty();
 
-    final double CELL_SIZE = 80;
+    final double CELL_SIZE = 70;
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
