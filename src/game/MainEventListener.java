@@ -5,6 +5,8 @@ import helper.Vector;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -16,10 +18,27 @@ enum CellState {
     YELLOW
 }
 
+
 public class MainEventListener implements GLEventListener, MouseMotionListener, MouseListener {
     CellState[][] state = new CellState[6][7];
 
     Optional<Integer> hoveredOnColumn = Optional.empty();
+
+    final double CELL_SIZE = 80;
+    JButton stop = new JButton();
+
+
+    int seconds = (int) System.currentTimeMillis() / 1000;
+    int seconds2 = (int) System.currentTimeMillis() / 1000;
+    int diffSecond = 0;
+    int minutes = 0;
+    JLabel jLabel = new JLabel();
+
+    boolean onGame = true;
+
+    boolean stopTime = true;
+
+    int temp = 0;
 
     final double CELL_SIZE = 70;
 
@@ -32,6 +51,11 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
         gl.glOrtho(0.0, 1280.0, 0.0, 720.0, -1.0, 1.0);
+        JLabel jLabel;
+
+        stop.setFocusable(true);
+        stop.setFocusTraversalKeysEnabled(true);
+
     }
 
     @Override
@@ -39,6 +63,39 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
         GL gl = glAutoDrawable.getGL();
         gl.glClear(GL.GL_COLOR_BUFFER_BIT);
 
+
+        //addButton stop
+        stop.setText("| |");
+        stop.setFont(new Font("Bold", 18, 72));
+        stop.setForeground(Color.yellow);
+        stop.setBackground(Color.BLACK);
+        stop.setBounds(20, 20, 100, 100);
+        stop.addMouseListener(this);
+
+
+        // <---Edit Time --->
+        if (onGame) {
+
+            if ((diffSecond) == 60) {
+                jLabel.setText(minutes + " : " + (seconds2 - seconds));
+                minutes++;
+                jLabel.setText(minutes + " : " + (0));
+                seconds = (int) System.currentTimeMillis() / 1000;
+            }
+
+            if (stopTime) {
+                jLabel.setText(minutes + " : " + diffSecond);
+                seconds2 = (int) System.currentTimeMillis() / 1000;
+                diffSecond = (temp + seconds2 - seconds);
+            } else {
+                seconds = (int) System.currentTimeMillis() / 1000;
+                diffSecond = diffSecond + (seconds2 - seconds);
+
+
+            }
+
+        }
+//       <--- End Time --->
         for (int y = 0; y < state.length; y++) {
             final CellState[] row = state[y];
 
@@ -49,10 +106,20 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
                     gl.glColor3d(1, 1, 0);
                     drawTri(gl, new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, CELL_SIZE + 6.5 * CELL_SIZE), CELL_SIZE);
                 }
+
+                drawRect(gl, new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, y * CELL_SIZE + 1.5 * CELL_SIZE), CELL_SIZE);
+                gl.glColor3d(1, 1, 1);
+
+                gl.glColor3d(1, 1, 1);
+                if (hoveredOnColumn.orElse(-1) == x) {
+                    gl.glColor3d(1, 1, 0);
+                    drawTri(gl, new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, CELL_SIZE + 6.5 * CELL_SIZE), CELL_SIZE);
+                }
                 drawRect(gl, new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, y * CELL_SIZE + 1.5 * CELL_SIZE), CELL_SIZE);
                 gl.glColor3d(1, 1, 1);
             }
         }
+
     }
 
     public void drawRect(GL gl, Vector pos, double size) {
@@ -96,6 +163,14 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
 
     @Override
     public void mouseClicked(MouseEvent e) {
+
+        if (e.getSource() == stop && onGame == true) {
+            onGame = false;
+            stopTime = false;
+        } else if (e.getSource() == stop && onGame == false) {
+            onGame = true;
+            stopTime = true;
+        }
 
     }
 
