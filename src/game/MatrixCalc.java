@@ -75,7 +75,8 @@ public class MatrixCalc {
                 conMatrix[1][2] == NumberPlayer && conMatrix[2][3] == NumberPlayer && conMatrix[3][4] == NumberPlayer && conMatrix[4][5] == NumberPlayer ||
                 conMatrix[2][3] == NumberPlayer && conMatrix[3][4] == NumberPlayer && conMatrix[4][5] == NumberPlayer && conMatrix[5][6] == NumberPlayer) {
             return true;
-        }
+    }
+
 
         return false;
     }
