@@ -75,13 +75,16 @@ public class UiDesign extends JFrame implements ActionListener, MouseListener {
         // add(jPanel2);
         this.setLayout(null);
 
-        UiDesignGLEventListiner udg =  new UiDesignGLEventListiner();
+        PlayButtonGLEventListener udi =  new PlayButtonGLEventListener();
         jPanel1.setBackground(new Color(0, 0, 0));
         jPanel1.setBounds(0, 0, 1280, 820);
         jPanel1.setLayout(null);
         jPanel1.add(glCanvas);
         glCanvas.setBounds(0, 0, 1280, 820);
-        glCanvas.addGLEventListener(udg);
+        glCanvas.addGLEventListener(udi);
+        glCanvas.addMouseListener(udi);
+        glCanvas.addMouseMotionListener(udi);
+        udi.setGLCanvas(glCanvas);
         jPanel1.add(btnStart);
         jPanel1.addMouseListener(this);
         jPanel1.add(btnExist);
@@ -124,6 +127,7 @@ public class UiDesign extends JFrame implements ActionListener, MouseListener {
 
         jLabel4.setFont(new Font("Bold", Font.BOLD, 128));
         jLabel4.setForeground(new Color(0, 110, 205));
+
 
         setVisible(true);
         setResizable(false);
