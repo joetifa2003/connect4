@@ -1,14 +1,7 @@
 package game;
 
 public class MatrixCalc {
-    public boolean MatrixWin(int [][] conMatrix , int NumberPlayer) {
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 7; j++) {
-                System.out.print(conMatrix[i][j] + " ");
-            }
-            System.out.println();
-        }
-
+    public boolean MatrixWin(int[][] conMatrix, int NumberPlayer) {
         //1st row
         // 1 1 1 1 0 0 0
         // 0 1 1 1 1 0 0
@@ -30,7 +23,6 @@ public class MatrixCalc {
         //         0
         //         0
         // 2nd cloumn
-
         for (int i = 2; i >= 0; i--) {
             for (int k = 6; k >= 0; k--) {
                 if (conMatrix[i][k] == NumberPlayer && conMatrix[i + 1][k] == NumberPlayer && conMatrix[i + 2][k] == NumberPlayer && conMatrix[i + 3][k] == NumberPlayer) {
@@ -38,6 +30,7 @@ public class MatrixCalc {
                 }
             }
         }
+
         //                       1
         //                  1    1
         //             1    1    1
@@ -45,23 +38,21 @@ public class MatrixCalc {
         //      1  1   1    0    0
         //   1  1  1   0    0    0
         // sure diagonal for 4items is equal with shift down  3rd diagonal R TO L
-
         for (int k = 0; k <= 2; k++)
             for (int i = 0; i < 3 - k; i++) {
                 if (conMatrix[i + k][6 - i] == NumberPlayer && conMatrix[i + k + 1][6 - (i + 1)] == NumberPlayer && conMatrix[i + k + 2][6 - (i + 2)] == NumberPlayer && conMatrix[i + k + 3][6 - (i + 3)] == NumberPlayer) {
-                    return true ;
+                    return true;
                 }
             }
 
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j < 3 - i; j++) {
-                if (conMatrix[j][5 - (j+i)] == NumberPlayer && conMatrix[j + 1][5 - (j + i + 1)] == NumberPlayer &&
+                if (conMatrix[j][5 - (j + i)] == NumberPlayer && conMatrix[j + 1][5 - (j + i + 1)] == NumberPlayer &&
                         conMatrix[j + 2][5 - (j + i + 2)] == NumberPlayer && conMatrix[j + 3][5 - (j + i + 3)] == NumberPlayer) {
-                    return true ;
+                    return true;
                 }
             }
         }
-
 
         //  1
         //  1 1
@@ -70,7 +61,6 @@ public class MatrixCalc {
         //  0 0 1 1 1 1
         //  0 0 0 1 1 1
         // sure diagonal for 4items is equal with shift down  4th diagonal L TO R
-
         for (int k = 0; k <= 2; k++)
             for (int i = 0; i < 3 - k; i++) {
                 if (conMatrix[i + k][i] == NumberPlayer && conMatrix[i + k + 1][(i + 1)] == NumberPlayer && conMatrix[i + k + 2][(i + 2)] == NumberPlayer && conMatrix[i + k + 3][(i + 3)] == NumberPlayer) {
@@ -79,14 +69,15 @@ public class MatrixCalc {
             }
 
         if (conMatrix[0][3] == NumberPlayer && conMatrix[1][4] == NumberPlayer && conMatrix[2][5] == NumberPlayer && conMatrix[3][6] == NumberPlayer ||
-            conMatrix[0][2] == NumberPlayer && conMatrix[1][3] == NumberPlayer && conMatrix[2][4] == NumberPlayer && conMatrix[3][5] == NumberPlayer ||
-            conMatrix[1][3] == NumberPlayer && conMatrix[2][4] == NumberPlayer && conMatrix[3][5] == NumberPlayer && conMatrix[4][6] == NumberPlayer ||
-            conMatrix[0][1] == NumberPlayer && conMatrix[1][2] == NumberPlayer && conMatrix[2][3] == NumberPlayer && conMatrix[3][4] == NumberPlayer ||
-            conMatrix[1][2] == NumberPlayer && conMatrix[2][3] == NumberPlayer && conMatrix[3][4] == NumberPlayer && conMatrix[4][5] == NumberPlayer ||
-            conMatrix[2][3] == NumberPlayer && conMatrix[3][4] == NumberPlayer && conMatrix[4][5] == NumberPlayer && conMatrix[5][6] == NumberPlayer) {
+                conMatrix[0][2] == NumberPlayer && conMatrix[1][3] == NumberPlayer && conMatrix[2][4] == NumberPlayer && conMatrix[3][5] == NumberPlayer ||
+                conMatrix[1][3] == NumberPlayer && conMatrix[2][4] == NumberPlayer && conMatrix[3][5] == NumberPlayer && conMatrix[4][6] == NumberPlayer ||
+                conMatrix[0][1] == NumberPlayer && conMatrix[1][2] == NumberPlayer && conMatrix[2][3] == NumberPlayer && conMatrix[3][4] == NumberPlayer ||
+                conMatrix[1][2] == NumberPlayer && conMatrix[2][3] == NumberPlayer && conMatrix[3][4] == NumberPlayer && conMatrix[4][5] == NumberPlayer ||
+                conMatrix[2][3] == NumberPlayer && conMatrix[3][4] == NumberPlayer && conMatrix[4][5] == NumberPlayer && conMatrix[5][6] == NumberPlayer) {
             return true;
     }
+
+
         return false;
     }
 }
-
