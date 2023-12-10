@@ -13,10 +13,7 @@ public class Main extends JFrame {
         super("Connect 4");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         boolean state = true;
-
         UserInterface(state);
-
-
         GLCanvas canvas = new GLCanvas();
         MainEventListener el = new MainEventListener();
         canvas.addGLEventListener(el);
@@ -45,7 +42,6 @@ public class Main extends JFrame {
 
 
     public void UserInterface(boolean state) {
-
         //state UiDesign or GamePlay
         if (state) {
             UiDesign uiDesign = new UiDesign();
@@ -54,7 +50,6 @@ public class Main extends JFrame {
 
 
         if (!state) {
-
             Container contentPanel = getContentPane();
             Container contentPanel1 = getContentPane();
             Container contentPanel2 = getContentPane();
@@ -64,7 +59,6 @@ public class Main extends JFrame {
             canvas.addMouseMotionListener(el);
             add(canvas, BorderLayout.CENTER);
             new FPSAnimator(canvas, 60).start();
-
 
             // add button on Stop of the canvas
             contentPanel1.add(el.stop);
@@ -90,15 +84,11 @@ public class Main extends JFrame {
             contentPanel.add(canvas);
             contentPanel2.add(canvas);
 
-
             //Frame:
             setSize(1320, 850);
             setLocationRelativeTo(null);
             setResizable(false);
             setVisible(true);
         }
-
     }
-
-
 }
