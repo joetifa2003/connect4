@@ -19,6 +19,25 @@ public class Main extends JFrame {
         UserInterface(state);
 
 
+        GLCanvas canvas = new GLCanvas();
+        MainEventListener el = new MainEventListener();
+        canvas.addGLEventListener(el);
+        canvas.addMouseMotionListener(el);
+        canvas.setBounds(0, 0, 1280, 720);
+
+        Container contentPanel = getContentPane();
+
+        // add button on top of the canvas
+        // JButton btn = new JButton();
+        // btn.setText("Hello");
+        // btn.setBounds(200, 200, 300, 200);
+        // contentPanel.add(btn);
+
+        contentPanel.add(canvas);
+
+        new FPSAnimator(canvas, 60).start();
+
+
     }
 
     public static void main(String[] args) {
@@ -63,7 +82,7 @@ public class Main extends JFrame {
             el.jLabel.setFont(new Font("Bold", 100, 72));
             jLabel1.setFont(new Font("Bold", 100, 72));
             jLabel1.setBounds(100, 170, 250, 200);
-            el.jLabel.setBounds(100, 260, 250, 200);
+            el.jLabel.setBounds(100, 300, 250, 200);
             contentPanel2.setBackground(Color.BLACK);
             contentPanel.setBackground(Color.BLACK);
             jLabel1.setForeground(Color.WHITE);
