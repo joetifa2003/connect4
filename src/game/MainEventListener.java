@@ -40,6 +40,7 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
 
     int temp = 0;
 
+    final double CELL_SIZE = 70;
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
@@ -100,7 +101,6 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
 
 
             for (int x = 0; x < row.length; x++) {
-
                 gl.glColor3d(1, 1, 1);
                 if (hoveredOnColumn.orElse(-1) == x) {
                     gl.glColor3d(1, 1, 0);
@@ -113,10 +113,10 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
                 gl.glColor3d(1, 1, 1);
                 if (hoveredOnColumn.orElse(-1) == x) {
                     gl.glColor3d(1, 1, 0);
+                    drawTri(gl, new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, CELL_SIZE + 6.5 * CELL_SIZE), CELL_SIZE);
                 }
                 drawRect(gl, new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, y * CELL_SIZE + 1.5 * CELL_SIZE), CELL_SIZE);
                 gl.glColor3d(1, 1, 1);
-
             }
         }
 

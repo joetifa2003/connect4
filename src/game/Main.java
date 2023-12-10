@@ -20,6 +20,7 @@ public class Main extends JFrame {
         UserInterface(state);
 
 
+
         GLCanvas canvas = new GLCanvas();
         MainEventListener el = new MainEventListener();
         canvas.addGLEventListener(el);
