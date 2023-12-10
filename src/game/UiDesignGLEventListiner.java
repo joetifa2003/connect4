@@ -4,7 +4,6 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
 public class UiDesignGLEventListiner implements GLEventListener {
-
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
 

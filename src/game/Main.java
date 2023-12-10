@@ -28,14 +28,13 @@ public class Main extends JFrame {
         new Main();
     }
 
-
     public void UserInterface(boolean state) {
-        if (state) {
+        if (!state) {
             UiDesign uiDesign = new UiDesign();
             setVisible(false);
         }
 
-        if (!state) {
+        if (state) {
             Container contentPanel = getContentPane();
             Container contentPanel1 = getContentPane();
             Container contentPanel2 = getContentPane();
