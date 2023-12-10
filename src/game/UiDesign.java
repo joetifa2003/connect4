@@ -1,6 +1,7 @@
 package game;
 
 
+import javax.media.opengl.GLCanvas;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,7 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class UiDesign extends JFrame implements ActionListener, MouseListener {
-
+    GLCanvas glCanvas  = new GLCanvas();
     int x = 620;
     int y = 50;
 
@@ -70,14 +71,18 @@ public class UiDesign extends JFrame implements ActionListener, MouseListener {
 
 
         add(jPanel1);
+
+
         // add(jPanel2);
         this.setLayout(null);
 
-
+        UiDesignGLEventListiner udg =  new UiDesignGLEventListiner();
         jPanel1.setBackground(new Color(0, 0, 0));
         jPanel1.setBounds(0, 0, 1280, 820);
         jPanel1.setLayout(null);
-
+        jPanel1.add(glCanvas);
+        glCanvas.setBounds(0, 0, 1280, 820);
+        glCanvas.addGLEventListener(udg);
         jPanel1.add(btnStart);
         jPanel1.addMouseListener(this);
         jPanel1.add(btnExist);
@@ -93,7 +98,7 @@ public class UiDesign extends JFrame implements ActionListener, MouseListener {
 
         btnExist.setFont(new Font("Bold", Font.BOLD, 128));
         btnExist.setForeground(new Color(255, 0, 0));
-        btnExist.setBackground(new Color(230, 230, 0));
+        btnExist.setBackground(new Color(0, 0, 0));
         //   btnStart.setBounds(x, y, 100, 60);
         btnExist.setBounds(10, 10, 150, 100);
         jLabelC.setBounds(250, 10, 150, 100);

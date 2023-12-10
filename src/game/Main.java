@@ -14,16 +14,13 @@ public class Main extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         boolean state = true;
 
-
-        // setVisible(false);
-
-
         UserInterface(state);
 
 
         GLCanvas canvas = new GLCanvas();
         MainEventListener el = new MainEventListener();
         canvas.addGLEventListener(el);
+
         canvas.addMouseMotionListener(el);
         canvas.setBounds(0, 0, 1280, 720);
 
@@ -43,7 +40,7 @@ public class Main extends JFrame {
     }
 
     public static void main(String[] args) {
-
+        new Main();
     }
 
 
@@ -51,7 +48,6 @@ public class Main extends JFrame {
 
         //state UiDesign or GamePlay
         if (state) {
-
             UiDesign uiDesign = new UiDesign();
             setVisible(false);
         }
