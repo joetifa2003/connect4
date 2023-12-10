@@ -16,6 +16,7 @@ public class Main extends JFrame {
 
         // setVisible(false);
 
+
         UserInterface(state);
 
 
@@ -48,14 +49,14 @@ public class Main extends JFrame {
     public void UserInterface(boolean state) {
 
         //state UiDesign or GamePlay
-        if (!state) {
+        if (state) {
 
             UiDesign uiDesign = new UiDesign();
             setVisible(false);
         }
 
 
-        if (state) {
+        if (!state) {
 
             Container contentPanel = getContentPane();
             Container contentPanel1 = getContentPane();

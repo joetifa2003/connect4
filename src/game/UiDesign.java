@@ -16,6 +16,8 @@ public class UiDesign extends JFrame implements ActionListener, MouseListener {
     int seconds = 0;
     int minutes = 0;
     Timer timer = new Timer(24, null);
+    ImageIcon image = new ImageIcon();
+    JLabel displayField = new JLabel();
 
 
     @Override
@@ -68,8 +70,9 @@ public class UiDesign extends JFrame implements ActionListener, MouseListener {
 
 
         add(jPanel1);
-        add(jPanel2);
+        // add(jPanel2);
         this.setLayout(null);
+
 
         jPanel1.setBackground(new Color(0, 0, 0));
         jPanel1.setBounds(0, 0, 1280, 820);
