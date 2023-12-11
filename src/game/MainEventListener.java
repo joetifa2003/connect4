@@ -18,7 +18,6 @@ enum CellState {
     YELLOW
 }
 
-
 public class MainEventListener implements GLEventListener, MouseMotionListener, MouseListener {
     CellState[][] state = new CellState[6][7];
 
@@ -38,7 +37,8 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
     boolean stopTime = true;
 
     MainEventListener(GameMode mode, Level level) {
-        System.out.println("Ahmed");
+        System.out.println(mode);
+        System.out.println(level);
     }
 
     @Override
@@ -46,7 +46,6 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
         GL gl = glAutoDrawable.getGL();
 
         gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        gl.glViewport(0, 0, 1280, 720);
         gl.glMatrixMode(GL.GL_PROJECTION);
         gl.glLoadIdentity();
         gl.glOrtho(0.0, 1280.0, 0.0, 720.0, -1.0, 1.0);
@@ -87,9 +86,7 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
 //       <--- End Time --->
         for (int y = 0; y < state.length; y++) {
             final CellState[] row = state[y];
-
             for (int x = 0; x < row.length; x++) {
-
                 gl.glColor3d(1, 1, 1);
                 if (hoveredOnColumn.orElse(-1) == x) {
                     gl.glColor3d(1, 1, 0);
@@ -98,15 +95,6 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
 
                 drawRect(gl, new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, y * CELL_SIZE + 1.5 * CELL_SIZE), CELL_SIZE);
                 gl.glColor3d(1, 1, 1);
-
-                gl.glColor3d(1, 1, 1);
-                if (hoveredOnColumn.orElse(-1) == x) {
-                    gl.glColor3d(1, 1, 0);
-                    drawTri(gl, new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, CELL_SIZE + 6.5 * CELL_SIZE), CELL_SIZE);
-                }
-                drawRect(gl, new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, y * CELL_SIZE + 1.5 * CELL_SIZE), CELL_SIZE);
-                gl.glColor3d(1, 1, 1);
-
             }
         }
 

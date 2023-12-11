@@ -13,7 +13,7 @@ public class Main extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         GLCanvas canvas = new GLCanvas();
-        UiDesignGLEventListiner uid=new UiDesignGLEventListiner() ;
+        UiDesignGLEventListiner uid = new UiDesignGLEventListiner();
 
         canvas.setBounds(0, 0, 1280, 720);
         Container contentPanel = getContentPane();
@@ -31,7 +31,7 @@ public class Main extends JFrame {
         Container contentPanel = getContentPane();
         contentPanel.add(canvas);
         new FPSAnimator(canvas, 60).start();
-        }
+    }
 
     public static void main(String[] args) {
         new Main();
@@ -46,7 +46,6 @@ public class Main extends JFrame {
             UiDesignGLEventListiner uid = new UiDesignGLEventListiner();
             uid.jFrame.setVisible(false);
             MainEventListener el = new MainEventListener(gameMode, level);
-            System.out.println(gameMode);
             canvas.addGLEventListener(el);
             canvas.addMouseMotionListener(el);
             add(canvas, BorderLayout.CENTER);
