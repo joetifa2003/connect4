@@ -37,6 +37,9 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
     boolean onGame = true;
     boolean stopTime = true;
 
+    MainEventListener(GameMode mode, Level level) {
+    }
+
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
         GL gl = glAutoDrawable.getGL();
