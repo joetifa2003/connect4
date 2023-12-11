@@ -98,7 +98,7 @@ public class UiDesignGLEventListiner extends JFrame {
         buttonSinglePlayer.setContentAreaFilled(false);
         buttonSinglePlayer.setBorderPainted(false);
         try {
-            Image img = ImageIO.read(getClass().getResource("..//Assets//2v2.jpg"));
+            Image img = ImageIO.read(getClass().getResource("..//Assets//computer.jpg"));
             buttonSinglePlayer.setIcon(new ImageIcon(img));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -109,9 +109,8 @@ public class UiDesignGLEventListiner extends JFrame {
         buttonMultiPlayer.setContentAreaFilled(false);
         buttonMultiPlayer.setBorderPainted(false);
         try {
-            Image img = ImageIO.read(getClass().getResource("..//Assets//computer.jpg"));
+            Image img = ImageIO.read(getClass().getResource("..//Assets//2v2.jpg"));
             buttonMultiPlayer.setIcon(new ImageIcon(img));
-
         } catch (Exception ex) {
             System.out.println(ex);
         }
@@ -218,8 +217,6 @@ public class UiDesignGLEventListiner extends JFrame {
             buttonSinglePlayer.addMouseListener(m2);
             buttonMultiPlayer.addMouseListener(m2);
             buttonCancel1.addMouseListener(m2);
-
-
         }
 
         if (page == Page.PAGE_3) {
