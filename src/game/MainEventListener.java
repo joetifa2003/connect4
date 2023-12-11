@@ -36,11 +36,9 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
     boolean onGame = true;
     boolean stopTime = true;
 
-    CellState currentPlayer = CellState.YELLOW;
+   CellState currentPlayer = CellState.YELLOW;
 
     MainEventListener(GameMode mode, Level level) {
-        System.out.println(mode);
-        System.out.println(level);
 
         for (int y = 0; y < state.length; y++) {
             CellState[] row = state[y];
@@ -112,7 +110,7 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
                 if (drawCoin) {
                     if (cell == CellState.YELLOW) {
                         gl.glColor3d(1, 1, 0);
-                    } else if (cell == CellState.RED) {
+                    } else if (cell ==CellState.RED) {
                         gl.glColor3d(1, 0, 0);
                     }
 
@@ -171,9 +169,11 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
             for (int y = 0; y < state.length; y++) {
                 if (state[y][hoveredOnColumn.get()] == CellState.EMPTY) {
                     state[y][hoveredOnColumn.get()] = currentPlayer;
-                    switchPlayers();
-                    if (MatrixCalc.MatrixWin(state)) {
+
+                    if (MatrixCalc.MatrixWin(state,currentPlayer)) {
+                        System.out.println(currentPlayer+" is a winner");
                     }
+                    switchPlayers();
                     break;
                 }
             }
