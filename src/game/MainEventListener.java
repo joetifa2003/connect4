@@ -38,6 +38,8 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
     boolean stopTime = true;
 
     MainEventListener(GameMode mode, Level level) {
+        System.out.println(mode);
+        System.out.println(level);
     }
 
     @Override
