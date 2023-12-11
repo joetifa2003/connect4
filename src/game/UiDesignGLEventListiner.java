@@ -1,17 +1,15 @@
 package game;
 
+import javax.imageio.ImageIO;
+import javax.media.opengl.GLCanvas;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.imageio.ImageIO;
-import javax.media.opengl.GLCanvas;
-import javax.swing.*;
 
 public class UiDesignGLEventListiner extends JFrame {
-
-
     Mouse m1 = new Mouse();
 
     Mouse m2 = new Mouse();
@@ -47,8 +45,6 @@ public class UiDesignGLEventListiner extends JFrame {
         buttonMultiPlayer = new JButton();
 
         try {
-
-
             image = new ImageIcon(getClass().getResource("..//Assets//connect4.jpg"));
             displayField = new JLabel(image);
             jFrame.add(displayField);
@@ -56,7 +52,6 @@ public class UiDesignGLEventListiner extends JFrame {
             System.out.println("Image cannot be Found");
         }
         displayField.setVisible(false);
-
 
         buttonStart.setOpaque(false);
         buttonStart.setContentAreaFilled(false);
@@ -153,16 +148,11 @@ public class UiDesignGLEventListiner extends JFrame {
             System.out.println(ex);
         }
 
-        GamePlay(m1.s1, m1.s2, m1.s3);
-
-
+        GamePlay(m1.page, m1.mode, m1.level);
     }
 
-
-    public void GamePlay(String s1, String s2, String s3) {
-
-        if (s1.equals("page1")  ) {
-
+    public void GamePlay(Page page, GameMode mode, Level level) {
+        if (page == Page.PAGE_1) {
             buttonStart.setVisible(true);
             buttonInfo.setVisible(true);
             buttonCancel.setVisible(true);
@@ -197,8 +187,7 @@ public class UiDesignGLEventListiner extends JFrame {
 
         }
 
-
-        if (s1.equals("page2")  ) {
+        if (page == Page.PAGE_2) {
             displayField.setVisible(true);
 
             buttonStart.setVisible(false);
@@ -232,10 +221,9 @@ public class UiDesignGLEventListiner extends JFrame {
 
 
         }
-         if (s1.equals("page3")  ) {
+
+        if (page == Page.PAGE_3) {
             displayField.setVisible(true);
-
-
             buttonStart.setVisible(false);
             buttonInfo.setVisible(false);
             buttonCancel.setVisible(false);
@@ -269,35 +257,24 @@ public class UiDesignGLEventListiner extends JFrame {
             buttonHard.addMouseListener(m2);
             buttonCancel2.addMouseListener(m2);
         }
-        if (s2 .equals( "MultiPlayer")) {
 
-
-            displayField.setVisible(false);
-
-
-        }
-
-        if (s2.equals("SinglePlayer")  && s3.equals("Easy")) {
-
-
+        if (mode == GameMode.MULTI) {
             displayField.setVisible(false);
         }
 
-        if (s2.equals("SinglePlayer")  && s3 .equals("Hard") ) {
-
+        if (mode == GameMode.SINGLE && level == Level.EASY) {
             displayField.setVisible(false);
-
         }
 
-        if (s2.equals("SinglePlayer")  && s3 .equals("Hard") ) {
-
-
+        if (mode == GameMode.SINGLE && level == Level.MEDIUM) {
             displayField.setVisible(false);
-
         }
-        if (s1 .equals( "Info")) {
 
+        if (mode == GameMode.SINGLE && level == Level.HARD) {
+            displayField.setVisible(false);
+        }
 
+        if (page == Page.PAGE_INFO) {
             buttonInfo.setVisible(false);
             displayField.add(jPanel);
             jPanel.setBounds(300, 100, 800, 800);
@@ -323,67 +300,59 @@ public class UiDesignGLEventListiner extends JFrame {
             helpMessage1.setForeground(Color.red);
             helpMessage1.setBackground(Color.blue);
             helpMessage1.setText(s);
-
-
         }
     }
 
+    enum Page {
+        PAGE_1,
+        PAGE_2,
+        PAGE_3,
+        PAGE_INFO
+    }
 
     private class Mouse implements MouseListener, ActionListener {
-
-        String s1 = "page1";
-        String s2 = "";
-        String s3 = "";
-
+        Page page = Page.PAGE_1;
+        GameMode mode = GameMode.EMPTY;
+        Level level = Level.EMPTY;
 
         @Override
         public void mouseClicked(MouseEvent e) {
-
-
             if (e.getSource() == buttonStart) {
-                s1 = "page2";
-
+                page = Page.PAGE_2;
             }
             if (e.getSource() == buttonCancel) {
-
-
                 System.exit(EXIT_ON_CLOSE);
-
-
             }
             if (e.getSource() == buttonSinglePlayer) {
-                s1 = "page3";
-                s2 = "SinglePlayer";
-
+                page = Page.PAGE_3;
+                mode = GameMode.SINGLE;
             }
             if (e.getSource() == buttonMultiPlayer) {
-                s1 = "page3";
-                s2 = "MultiPlayer";
+                page = Page.PAGE_3;
+                mode = GameMode.MULTI;
             }
 
             if (e.getSource() == buttonCancel1) {
-                s1 = "page1";
+                page = Page.PAGE_1;
             }
 
             if (e.getSource() == buttonCancel2) {
-                s1 = "page2";
-                s2 = "";
-                s3 = "";
+                page = Page.PAGE_2;
+                mode = GameMode.EMPTY;
+                level = Level.EMPTY;
             }
-
 
             if (e.getSource() == buttonEasy) {
-                s3 = "Easy";
+                level = Level.EASY;
             }
             if (e.getSource() == buttonMedium) {
-                s3 = "Medium";
+                level = Level.MEDIUM;
             }
             if (e.getSource() == buttonHard) {
-                s3 = "Hard";
+                level = Level.HARD;
             }
 
-
-            GamePlay(s1, s2, s3);
+            GamePlay(page, mode, level);
         }
 
 
@@ -392,8 +361,7 @@ public class UiDesignGLEventListiner extends JFrame {
             if (e.getSource() == buttonInfo) {
                 buttonInfo.setBackground(new Color(0, 0, 255));
                 buttonInfo.setForeground(new Color(0, 255, 0));
-                s1 = "Info";
-
+                page = Page.PAGE_INFO;
             }
         }
 
@@ -402,15 +370,12 @@ public class UiDesignGLEventListiner extends JFrame {
             if (e.getSource() == buttonInfo) {
                 buttonInfo.setBackground(new Color(0, 255, 0));
                 buttonInfo.setForeground(new Color(0, 0, 255));
-                s1 = "";
             }
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == buttonInfo) {
-                glcanvas = null;
-            }
+
         }
 
         @Override

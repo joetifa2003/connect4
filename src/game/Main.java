@@ -30,7 +30,7 @@ public class Main extends JFrame {
 
     public void UserInterface(boolean state) {
         if (state) {
-            UiDesignGLEventListiner n1=new UiDesignGLEventListiner();
+            UiDesignGLEventListiner n1 = new UiDesignGLEventListiner();
         }
 
         if (!state) {
