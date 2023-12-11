@@ -15,7 +15,6 @@ public class MatrixCalc {
                 }
             }
 
-
         //         1
         //         1
         //         1
@@ -68,16 +67,13 @@ public class MatrixCalc {
                 }
             }
 
-        if (conMatrix[0][3] == NumberPlayer && conMatrix[1][4] == NumberPlayer && conMatrix[2][5] == NumberPlayer && conMatrix[3][6] == NumberPlayer ||
-                conMatrix[0][2] == NumberPlayer && conMatrix[1][3] == NumberPlayer && conMatrix[2][4] == NumberPlayer && conMatrix[3][5] == NumberPlayer ||
-                conMatrix[1][3] == NumberPlayer && conMatrix[2][4] == NumberPlayer && conMatrix[3][5] == NumberPlayer && conMatrix[4][6] == NumberPlayer ||
-                conMatrix[0][1] == NumberPlayer && conMatrix[1][2] == NumberPlayer && conMatrix[2][3] == NumberPlayer && conMatrix[3][4] == NumberPlayer ||
-                conMatrix[1][2] == NumberPlayer && conMatrix[2][3] == NumberPlayer && conMatrix[3][4] == NumberPlayer && conMatrix[4][5] == NumberPlayer ||
-                conMatrix[2][3] == NumberPlayer && conMatrix[3][4] == NumberPlayer && conMatrix[4][5] == NumberPlayer && conMatrix[5][6] == NumberPlayer) {
-            return true;
+        for (int i=0;i<3;i++){
+            for(int j=0;j<3-i;j++){
+
+                 if (
+                         conMatrix[j][j+i+1]==NumberPlayer && conMatrix[j+1][j+i+2]==NumberPlayer &&conMatrix[j+2][j+i+3]==NumberPlayer &&conMatrix[j+3][j+i+4]==NumberPlayer) {  return true; }
+                                }
     }
-
-
         return false;
     }
 }
