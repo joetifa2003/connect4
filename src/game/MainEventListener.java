@@ -12,14 +12,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Optional;
 
-enum CellState {
-    EMPTY,
-    RED,
-    YELLOW
-}
-
 public class MainEventListener implements GLEventListener, MouseMotionListener, MouseListener {
-    CellState[][] state = new CellState[6][7];
+    int[][] state = new int[6][7];
 
     Optional<Integer> hoveredOnColumn = Optional.empty();
 
@@ -36,16 +30,16 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
     boolean onGame = true;
     boolean stopTime = true;
 
-    CellState currentPlayer = CellState.YELLOW;
+    int currentPlayer = Constants.CELL_YELLOW;
 
     MainEventListener(GameMode mode, Level level) {
         System.out.println(mode);
         System.out.println(level);
 
         for (int y = 0; y < state.length; y++) {
-            CellState[] row = state[y];
+            int[] row = state[y];
             for (int x = 0; x < row.length; x++) {
-                state[y][x] = CellState.EMPTY;
+                state[y][x] = Constants.CELL_EMPTY;
             }
         }
     }
@@ -94,9 +88,9 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
         }
 //       <--- End Time --->
         for (int y = 0; y < state.length; y++) {
-            final CellState[] row = state[y];
+            final int[] row = state[y];
             for (int x = 0; x < row.length; x++) {
-                CellState cell = row[x];
+                int cell = row[x];
 
                 gl.glColor3d(1, 1, 1);
                 if (hoveredOnColumn.orElse(-1) == x) {
@@ -108,11 +102,11 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
                 drawRect(gl, cellPos, CELL_SIZE);
                 gl.glColor3d(1, 1, 1);
 
-                boolean drawCoin = cell != CellState.EMPTY;
+                boolean drawCoin = cell != Constants.CELL_EMPTY;
                 if (drawCoin) {
-                    if (cell == CellState.YELLOW) {
+                    if (cell == Constants.CELL_YELLOW) {
                         gl.glColor3d(1, 1, 0);
-                    } else if (cell == CellState.RED) {
+                    } else if (cell == Constants.CELL_RED) {
                         gl.glColor3d(1, 0, 0);
                     }
 
@@ -169,7 +163,7 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
 
         if (hoveredOnColumn.isPresent()) {
             for (int y = 0; y < state.length; y++) {
-                if (state[y][hoveredOnColumn.get()] == CellState.EMPTY) {
+                if (state[y][hoveredOnColumn.get()] == Constants.CELL_EMPTY) {
                     state[y][hoveredOnColumn.get()] = currentPlayer;
                     switchPlayers();
                     if (MatrixCalc.MatrixWin(state)) {
@@ -181,7 +175,7 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
     }
 
     void switchPlayers() {
-        this.currentPlayer = this.currentPlayer == CellState.RED ? CellState.YELLOW : CellState.RED;
+        this.currentPlayer = this.currentPlayer == Constants.CELL_RED ? Constants.CELL_YELLOW : Constants.CELL_RED;
     }
 
     void drawCircle(GL gl, Vector pos, double radius) {
