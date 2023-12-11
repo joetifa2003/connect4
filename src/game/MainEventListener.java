@@ -36,16 +36,10 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
     boolean onGame = true;
     boolean stopTime = true;
 
-   CellState currentPlayer = CellState.YELLOW;
+    CellState currentPlayer = CellState.YELLOW;
 
     MainEventListener(GameMode mode, Level level) {
-
-        for (int y = 0; y < state.length; y++) {
-            CellState[] row = state[y];
-            for (int x = 0; x < row.length; x++) {
-                state[y][x] = CellState.EMPTY;
-            }
-        }
+        resetGame();
     }
 
     @Override
@@ -110,7 +104,7 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
                 if (drawCoin) {
                     if (cell == CellState.YELLOW) {
                         gl.glColor3d(1, 1, 0);
-                    } else if (cell ==CellState.RED) {
+                    } else if (cell == CellState.RED) {
                         gl.glColor3d(1, 0, 0);
                     }
 
@@ -170,8 +164,9 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
                 if (state[y][hoveredOnColumn.get()] == CellState.EMPTY) {
                     state[y][hoveredOnColumn.get()] = currentPlayer;
 
-                    if (MatrixCalc.MatrixWin(state,currentPlayer)) {
-                        System.out.println(currentPlayer+" is a winner");
+                    if (MatrixCalc.MatrixWin(state, currentPlayer)) {
+                        JOptionPane.showMessageDialog(null, this.currentPlayer + " WON!");
+                        resetGame();
                     }
                     switchPlayers();
                     break;
@@ -192,6 +187,15 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
             gl.glVertex2d(x1, y1);
         }
         gl.glEnd();
+    }
+
+    void resetGame() {
+        for (int y = 0; y < state.length; y++) {
+            CellState[] row = state[y];
+            for (int x = 0; x < row.length; x++) {
+                state[y][x] = CellState.EMPTY;
+            }
+        }
     }
 
     @Override
