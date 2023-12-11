@@ -11,34 +11,49 @@ public class Main extends JFrame {
     Main() {
         super("Connect 4");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        boolean state = true;
 
-        UserInterface(state);
         GLCanvas canvas = new GLCanvas();
-        MainEventListener el = new MainEventListener();
+        UiDesignGLEventListiner uid=new UiDesignGLEventListiner() ;
+        MainEventListener el = new MainEventListener(uid.gameMode, uid.m1.level);
         canvas.addGLEventListener(el);
         canvas.addMouseMotionListener(el);
         canvas.setBounds(0, 0, 1280, 720);
         Container contentPanel = getContentPane();
         contentPanel.add(canvas);
         new FPSAnimator(canvas, 60).start();
+
     }
+    Main(GameMode gameMode,Level level,boolean state) {
+        super("Connect 4");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+          setVisible(state);
+        GLCanvas canvas = new GLCanvas();
+        UserInterface(gameMode, level);
+        MainEventListener el = new MainEventListener(gameMode, level);
+        canvas.addGLEventListener(el);
+        canvas.addMouseMotionListener(el);
+        canvas.setBounds(0, 0, 1280, 720);
+        Container contentPanel = getContentPane();
+        contentPanel.add(canvas);
+        new FPSAnimator(canvas, 60).start();
+
+        }
 
     public static void main(String[] args) {
         new Main();
     }
 
-    public void UserInterface(boolean state) {
-        if (state) {
-            UiDesignGLEventListiner n1 = new UiDesignGLEventListiner();
-        }
+    public void UserInterface(GameMode gameMode ,Level level) {
 
-        if (!state) {
+
+        if (gameMode!=GameMode.EMPTY||level!=Level.EMPTY) {
             Container contentPanel = getContentPane();
             Container contentPanel1 = getContentPane();
             Container contentPanel2 = getContentPane();
             GLCanvas canvas = new GLCanvas();
-            MainEventListener el = new MainEventListener();
+            UiDesignGLEventListiner uid=new UiDesignGLEventListiner() ;
+            uid.jFrame.setVisible(false);
+            MainEventListener el = new MainEventListener(uid.gameMode, uid.m1.level);
             canvas.addGLEventListener(el);
             canvas.addMouseMotionListener(el);
             add(canvas, BorderLayout.CENTER);
@@ -67,7 +82,6 @@ public class Main extends JFrame {
             contentPanel2.add(jLabel1);
             contentPanel.add(canvas);
             contentPanel2.add(canvas);
-
             //Frame:
             setSize(1320, 850);
             setLocationRelativeTo(null);

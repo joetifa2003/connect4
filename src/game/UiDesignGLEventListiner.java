@@ -1,7 +1,6 @@
 package game;
 
 import javax.imageio.ImageIO;
-import javax.media.opengl.GLCanvas;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,16 +14,30 @@ public class UiDesignGLEventListiner extends JFrame {
     Mouse m2 = new Mouse();
     JFrame jFrame = new JFrame();
 
+
+
     JButton buttonStart, buttonInfo, buttonCancel, //page1
             buttonSinglePlayer, buttonMultiPlayer, buttonCancel1,   //page2
             buttonEasy, buttonMedium, buttonHard, buttonCancel2;        //page3
 
     ImageIcon image;
-    JLabel displayField = new JLabel();
-    GLCanvas glcanvas = new GLCanvas();
 
+    GameMode gameMode ;
+    Level level;
+    JLabel displayField = new JLabel();
 
     JPanel jPanel = new JPanel();
+
+
+
+    UiDesignGLEventListiner(GameMode gameMode,Level level){
+
+        this.gameMode=gameMode;
+        this.level=level;
+
+    }
+
+
 
 
     UiDesignGLEventListiner() {
@@ -59,7 +72,6 @@ public class UiDesignGLEventListiner extends JFrame {
         try {
             Image img = ImageIO.read(getClass().getResource("..//Assets//traingle3.png"));
             buttonStart.setIcon(new ImageIcon(img));
-            System.out.println("k");
         } catch (Exception ex) {
             System.out.println(ex);
         }
@@ -259,35 +271,35 @@ public class UiDesignGLEventListiner extends JFrame {
         }
 
         if (mode == GameMode.MULTI) {
-            displayField.setVisible(false);
-        }
 
+            jFrame.setVisible(false);
+            Main main=new Main(GameMode.MULTI,Level.EASY,false);
+        }
         if (mode == GameMode.SINGLE && level == Level.EASY) {
-            displayField.setVisible(false);
+            jFrame.setVisible(false);
+            Main main=new Main(GameMode.SINGLE,Level.EASY,false);
         }
 
         if (mode == GameMode.SINGLE && level == Level.MEDIUM) {
-            displayField.setVisible(false);
+            jFrame.setVisible(false);
+            Main main=new Main(GameMode.SINGLE,Level.MEDIUM,false);
         }
 
         if (mode == GameMode.SINGLE && level == Level.HARD) {
-            displayField.setVisible(false);
-        }
+            jFrame.setVisible(false);
+            Main main=new Main(GameMode.SINGLE,Level.HARD,false);
 
+
+        }
         if (page == Page.PAGE_INFO) {
             buttonInfo.setVisible(false);
             displayField.add(jPanel);
             jPanel.setBounds(300, 100, 800, 800);
             jPanel.setLayout(null);
             jPanel.setBackground(Color.BLACK);
-
-
             JLabel helpMessage1 = new JLabel();
-
             jPanel.add(helpMessage1);
             helpMessage1.setBounds(100, 100, 400, 400);
-
-
             helpMessage1.setFont(new Font("Welcome to Our Game!", Font.ITALIC, 18));
             helpMessage1.setVerticalAlignment(1);
             helpMessage1.setHorizontalAlignment(0);
@@ -310,11 +322,17 @@ public class UiDesignGLEventListiner extends JFrame {
         PAGE_INFO
     }
 
-    private class Mouse implements MouseListener, ActionListener {
+   class Mouse implements MouseListener, ActionListener {
         Page page = Page.PAGE_1;
         GameMode mode = GameMode.EMPTY;
         Level level = Level.EMPTY;
 
+
+        Mouse(){}
+        Mouse(GameMode mode ,Level level){
+            this.mode=mode;
+            this.level=level;
+        }
         @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getSource() == buttonStart) {
@@ -326,10 +344,12 @@ public class UiDesignGLEventListiner extends JFrame {
             if (e.getSource() == buttonSinglePlayer) {
                 page = Page.PAGE_3;
                 mode = GameMode.SINGLE;
+
             }
             if (e.getSource() == buttonMultiPlayer) {
-                page = Page.PAGE_3;
+                jFrame.setVisible(false);
                 mode = GameMode.MULTI;
+
             }
 
             if (e.getSource() == buttonCancel1) {
