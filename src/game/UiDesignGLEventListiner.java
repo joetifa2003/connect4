@@ -15,29 +15,25 @@ public class UiDesignGLEventListiner extends JFrame {
     JFrame jFrame = new JFrame();
 
 
-
     JButton buttonStart, buttonInfo, buttonCancel, //page1
             buttonSinglePlayer, buttonMultiPlayer, buttonCancel1,   //page2
             buttonEasy, buttonMedium, buttonHard, buttonCancel2;        //page3
 
     ImageIcon image;
 
-    GameMode gameMode ;
+    GameMode gameMode;
     Level level;
     JLabel displayField = new JLabel();
 
     JPanel jPanel = new JPanel();
 
 
+    UiDesignGLEventListiner(GameMode gameMode, Level level) {
 
-    UiDesignGLEventListiner(GameMode gameMode,Level level){
-
-        this.gameMode=gameMode;
-        this.level=level;
+        this.gameMode = gameMode;
+        this.level = level;
 
     }
-
-
 
 
     UiDesignGLEventListiner() {
@@ -273,21 +269,21 @@ public class UiDesignGLEventListiner extends JFrame {
         if (mode == GameMode.MULTI) {
 
             jFrame.setVisible(false);
-            Main main=new Main(GameMode.MULTI,Level.EASY,false);
+            Main main = new Main(GameMode.MULTI, Level.EASY, false);
         }
         if (mode == GameMode.SINGLE && level == Level.EASY) {
             jFrame.setVisible(false);
-            Main main=new Main(GameMode.SINGLE,Level.EASY,false);
+            Main main = new Main(GameMode.SINGLE, Level.EASY, false);
         }
 
         if (mode == GameMode.SINGLE && level == Level.MEDIUM) {
             jFrame.setVisible(false);
-            Main main=new Main(GameMode.SINGLE,Level.MEDIUM,false);
+            Main main = new Main(GameMode.SINGLE, Level.MEDIUM, false);
         }
 
         if (mode == GameMode.SINGLE && level == Level.HARD) {
             jFrame.setVisible(false);
-            Main main=new Main(GameMode.SINGLE,Level.HARD,false);
+            Main main = new Main(GameMode.SINGLE, Level.HARD, false);
 
 
         }
@@ -322,17 +318,20 @@ public class UiDesignGLEventListiner extends JFrame {
         PAGE_INFO
     }
 
-   class Mouse implements MouseListener, ActionListener {
+    class Mouse implements MouseListener, ActionListener {
         Page page = Page.PAGE_1;
         GameMode mode = GameMode.EMPTY;
         Level level = Level.EMPTY;
 
 
-        Mouse(){}
-        Mouse(GameMode mode ,Level level){
-            this.mode=mode;
-            this.level=level;
+        Mouse() {
         }
+
+        Mouse(GameMode mode, Level level) {
+            this.mode = mode;
+            this.level = level;
+        }
+
         @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getSource() == buttonStart) {
