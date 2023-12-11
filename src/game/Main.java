@@ -29,12 +29,11 @@ public class Main extends JFrame {
     }
 
     public void UserInterface(boolean state) {
-        if (!state) {
-            UiDesign uiDesign = new UiDesign();
-            setVisible(false);
+        if (state) {
+            UiDesignGLEventListiner n1=new UiDesignGLEventListiner();
         }
 
-        if (state) {
+        if (!state) {
             Container contentPanel = getContentPane();
             Container contentPanel1 = getContentPane();
             Container contentPanel2 = getContentPane();
@@ -56,7 +55,7 @@ public class Main extends JFrame {
             //addTimer
             JLabel jLabel1 = new JLabel("Time");
             el.jLabel = new JLabel(el.minutes + " : " + el.seconds);
-            el.jLabel.setFont(new Font("Bold", 100, 72));
+            el.jLabel.setFont(new Font("Bold", 100, 100));
             jLabel1.setFont(new Font("Bold", 100, 72));
             jLabel1.setBounds(100, 170, 250, 200);
             el.jLabel.setBounds(100, 300, 250, 200);
