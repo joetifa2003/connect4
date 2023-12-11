@@ -36,9 +36,18 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
     boolean onGame = true;
     boolean stopTime = true;
 
+    CellState currentPlayer = CellState.YELLOW;
+
     MainEventListener(GameMode mode, Level level) {
         System.out.println(mode);
         System.out.println(level);
+
+        for (int y = 0; y < state.length; y++) {
+            CellState[] row = state[y];
+            for (int x = 0; x < row.length; x++) {
+                state[y][x] = CellState.EMPTY;
+            }
+        }
     }
 
     @Override
@@ -87,14 +96,28 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
         for (int y = 0; y < state.length; y++) {
             final CellState[] row = state[y];
             for (int x = 0; x < row.length; x++) {
+                CellState cell = row[x];
+
                 gl.glColor3d(1, 1, 1);
                 if (hoveredOnColumn.orElse(-1) == x) {
                     gl.glColor3d(1, 1, 0);
                     drawTri(gl, new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, CELL_SIZE + 6.5 * CELL_SIZE), CELL_SIZE);
                 }
 
-                drawRect(gl, new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, y * CELL_SIZE + 1.5 * CELL_SIZE), CELL_SIZE);
+                Vector cellPos = new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, y * CELL_SIZE + 1.5 * CELL_SIZE);
+                drawRect(gl, cellPos, CELL_SIZE);
                 gl.glColor3d(1, 1, 1);
+
+                boolean drawCoin = cell != CellState.EMPTY;
+                if (drawCoin) {
+                    if (cell == CellState.YELLOW) {
+                        gl.glColor3d(1, 1, 0);
+                    } else if (cell == CellState.RED) {
+                        gl.glColor3d(1, 0, 0);
+                    }
+
+                    drawCircle(gl, cellPos.add(new Vector(40, 40)), CELL_SIZE / 2.5);
+                }
             }
         }
 
@@ -143,6 +166,32 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
             onGame = !onGame;
             stopTime = !stopTime;
         }
+
+        if (hoveredOnColumn.isPresent()) {
+            for (int y = 0; y < state.length; y++) {
+                if (state[y][hoveredOnColumn.get()] == CellState.EMPTY) {
+                    state[y][hoveredOnColumn.get()] = currentPlayer;
+                    switchPlayers();
+                    if (MatrixCalc.MatrixWin(state)) {
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    void switchPlayers() {
+        this.currentPlayer = this.currentPlayer == CellState.RED ? CellState.YELLOW : CellState.RED;
+    }
+
+    void drawCircle(GL gl, Vector pos, double radius) {
+        gl.glBegin(GL.GL_POLYGON);
+        for (double a = 0; a < Math.toRadians(360); a += Math.toRadians(1)) {
+            double x1 = radius * (Math.cos(a)) + pos.getX();
+            double y1 = radius * (Math.sin(a)) + pos.getY();
+            gl.glVertex2d(x1, y1);
+        }
+        gl.glEnd();
     }
 
     @Override

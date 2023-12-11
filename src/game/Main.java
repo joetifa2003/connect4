@@ -48,6 +48,7 @@ public class Main extends JFrame {
             MainEventListener el = new MainEventListener(gameMode, level);
             canvas.addGLEventListener(el);
             canvas.addMouseMotionListener(el);
+            canvas.addMouseListener(el);
             add(canvas, BorderLayout.CENTER);
             new FPSAnimator(canvas, 60).start();
 

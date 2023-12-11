@@ -1,7 +1,7 @@
 package game;
 
 public class MatrixCalc {
-    public boolean MatrixWin(int[][] conMatrix, int NumberPlayer) {
+    public static boolean MatrixWin(CellState[][] conMatrix) {
         //1st row
         // 1 1 1 1 0 0 0
         // 0 1 1 1 1 0 0
@@ -67,13 +67,15 @@ public class MatrixCalc {
                 }
             }
 
-        for (int i=0;i<3;i++){
-            for(int j=0;j<3-i;j++){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3 - i; j++) {
 
-                 if (
-                         conMatrix[j][j+i+1]==NumberPlayer && conMatrix[j+1][j+i+2]==NumberPlayer &&conMatrix[j+2][j+i+3]==NumberPlayer &&conMatrix[j+3][j+i+4]==NumberPlayer) {  return true; }
-                                }
-    }
+                if (
+                        conMatrix[j][j + i + 1] == NumberPlayer && conMatrix[j + 1][j + i + 2] == NumberPlayer && conMatrix[j + 2][j + i + 3] == NumberPlayer && conMatrix[j + 3][j + i + 4] == NumberPlayer) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 }
