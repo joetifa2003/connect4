@@ -14,39 +14,36 @@ public class Main extends JFrame {
 
         GLCanvas canvas = new GLCanvas();
         UiDesignGLEventListiner uid=new UiDesignGLEventListiner() ;
+
         canvas.setBounds(0, 0, 1280, 720);
         Container contentPanel = getContentPane();
         contentPanel.add(canvas);
         new FPSAnimator(canvas, 60).start();
-
     }
-    Main(GameMode gameMode,Level level,boolean state) {
+
+    Main(GameMode gameMode, Level level, boolean state) {
         super("Connect 4");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-          setVisible(state);
+        setVisible(state);
         GLCanvas canvas = new GLCanvas();
         UserInterface(gameMode, level);
         canvas.setBounds(0, 0, 1280, 720);
         Container contentPanel = getContentPane();
         contentPanel.add(canvas);
         new FPSAnimator(canvas, 60).start();
-
-
         }
 
     public static void main(String[] args) {
         new Main();
     }
 
-    public void UserInterface(GameMode gameMode ,Level level) {
-
-
-        if (gameMode!=GameMode.EMPTY||level!=Level.EMPTY) {
+    public void UserInterface(GameMode gameMode, Level level) {
+        if (gameMode != GameMode.EMPTY || level != Level.EMPTY) {
             Container contentPanel = getContentPane();
             Container contentPanel1 = getContentPane();
             Container contentPanel2 = getContentPane();
             GLCanvas canvas = new GLCanvas();
-            UiDesignGLEventListiner uid=new UiDesignGLEventListiner() ;
+            UiDesignGLEventListiner uid = new UiDesignGLEventListiner();
             uid.jFrame.setVisible(false);
             MainEventListener el = new MainEventListener(gameMode, level);
             System.out.println(gameMode);
@@ -78,6 +75,7 @@ public class Main extends JFrame {
             contentPanel2.add(jLabel1);
             contentPanel.add(canvas);
             contentPanel2.add(canvas);
+
             //Frame:
             setSize(1320, 850);
             setLocationRelativeTo(null);

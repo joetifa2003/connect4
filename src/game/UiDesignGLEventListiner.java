@@ -8,12 +8,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+enum Page {
+    PAGE_1,
+    PAGE_2,
+    PAGE_3,
+    PAGE_INFO
+}
+
 public class UiDesignGLEventListiner extends JFrame {
     Mouse m1 = new Mouse();
-
     Mouse m2 = new Mouse();
     JFrame jFrame = new JFrame();
-
 
     JButton buttonStart, buttonInfo, buttonCancel, //page1
             buttonSinglePlayer, buttonMultiPlayer, buttonCancel1,   //page2
@@ -24,9 +29,7 @@ public class UiDesignGLEventListiner extends JFrame {
     GameMode gameMode;
     Level level;
     JLabel displayField = new JLabel();
-
     JPanel jPanel = new JPanel();
-
 
     UiDesignGLEventListiner(GameMode gameMode, Level level) {
 
@@ -35,9 +38,7 @@ public class UiDesignGLEventListiner extends JFrame {
 
     }
 
-
     UiDesignGLEventListiner() {
-
         jFrame.setVisible(true);
         jFrame.setSize(1520, 1020);
         jFrame.setTitle("8BALL");
@@ -106,7 +107,7 @@ public class UiDesignGLEventListiner extends JFrame {
         buttonSinglePlayer.setContentAreaFilled(false);
         buttonSinglePlayer.setBorderPainted(false);
         try {
-            Image img = ImageIO.read(getClass().getResource("..//Assets//2v2.jpg"));
+            Image img = ImageIO.read(getClass().getResource("..//Assets//computer.jpg"));
             buttonSinglePlayer.setIcon(new ImageIcon(img));
         } catch (Exception ex) {
             System.out.println(ex);
@@ -117,9 +118,8 @@ public class UiDesignGLEventListiner extends JFrame {
         buttonMultiPlayer.setContentAreaFilled(false);
         buttonMultiPlayer.setBorderPainted(false);
         try {
-            Image img = ImageIO.read(getClass().getResource("..//Assets//computer.jpg"));
+            Image img = ImageIO.read(getClass().getResource("..//Assets//2v2.jpg"));
             buttonMultiPlayer.setIcon(new ImageIcon(img));
-
         } catch (Exception ex) {
             System.out.println(ex);
         }
@@ -226,8 +226,6 @@ public class UiDesignGLEventListiner extends JFrame {
             buttonSinglePlayer.addMouseListener(m2);
             buttonMultiPlayer.addMouseListener(m2);
             buttonCancel1.addMouseListener(m2);
-
-
         }
 
         if (page == Page.PAGE_3) {
@@ -267,10 +265,10 @@ public class UiDesignGLEventListiner extends JFrame {
         }
 
         if (mode == GameMode.MULTI) {
-
             jFrame.setVisible(false);
             Main main = new Main(GameMode.MULTI, Level.EASY, false);
         }
+
         if (mode == GameMode.SINGLE && level == Level.EASY) {
             jFrame.setVisible(false);
             Main main = new Main(GameMode.SINGLE, Level.EASY, false);
@@ -284,9 +282,8 @@ public class UiDesignGLEventListiner extends JFrame {
         if (mode == GameMode.SINGLE && level == Level.HARD) {
             jFrame.setVisible(false);
             Main main = new Main(GameMode.SINGLE, Level.HARD, false);
-
-
         }
+
         if (page == Page.PAGE_INFO) {
             buttonInfo.setVisible(false);
             displayField.add(jPanel);
@@ -311,18 +308,11 @@ public class UiDesignGLEventListiner extends JFrame {
         }
     }
 
-    enum Page {
-        PAGE_1,
-        PAGE_2,
-        PAGE_3,
-        PAGE_INFO
-    }
 
     class Mouse implements MouseListener, ActionListener {
         Page page = Page.PAGE_1;
         GameMode mode = GameMode.EMPTY;
         Level level = Level.EMPTY;
-
 
         Mouse() {
         }
@@ -348,7 +338,6 @@ public class UiDesignGLEventListiner extends JFrame {
             if (e.getSource() == buttonMultiPlayer) {
                 jFrame.setVisible(false);
                 mode = GameMode.MULTI;
-
             }
 
             if (e.getSource() == buttonCancel1) {
