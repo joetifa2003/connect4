@@ -25,9 +25,18 @@ public class UiDesignGLEventListiner extends JFrame {
             buttonEasy, buttonMedium, buttonHard, buttonCancel2;        //page3
 
     ImageIcon image;
+
     GameMode gameMode;
+    Level level;
     JLabel displayField = new JLabel();
     JPanel jPanel = new JPanel();
+
+    UiDesignGLEventListiner(GameMode gameMode, Level level) {
+
+        this.gameMode = gameMode;
+        this.level = level;
+
+    }
 
     UiDesignGLEventListiner() {
         jFrame.setVisible(true);
@@ -304,6 +313,14 @@ public class UiDesignGLEventListiner extends JFrame {
         Page page = Page.PAGE_1;
         GameMode mode = GameMode.EMPTY;
         Level level = Level.EMPTY;
+
+        Mouse() {
+        }
+
+        Mouse(GameMode mode, Level level) {
+            this.mode = mode;
+            this.level = level;
+        }
 
         @Override
         public void mouseClicked(MouseEvent e) {
