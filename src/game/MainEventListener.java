@@ -38,7 +38,13 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
 
     CellState currentPlayer = CellState.YELLOW;
 
+    GameMode mode;
+    Level level;
+
     MainEventListener(GameMode mode, Level level) {
+        System.out.println(mode);
+        this.mode = mode;
+        this.level = level;
         resetGame();
     }
 
@@ -159,19 +165,10 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
             stopTime = !stopTime;
         }
 
-        if (hoveredOnColumn.isPresent()) {
-            for (int y = 0; y < state.length; y++) {
-                if (state[y][hoveredOnColumn.get()] == CellState.EMPTY) {
-                    state[y][hoveredOnColumn.get()] = currentPlayer;
-
-                    if (MatrixCalc.MatrixWin(state, currentPlayer)) {
-                        JOptionPane.showMessageDialog(null, this.currentPlayer + " WON!");
-                        resetGame();
-                    }
-                    switchPlayers();
-                    break;
-                }
-            }
+        if (mode == GameMode.SINGLE) {
+            singlePlayerPlay();
+        } else {
+            multiPlayerPlay();
         }
     }
 
@@ -195,6 +192,56 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
             for (int x = 0; x < row.length; x++) {
                 state[y][x] = CellState.EMPTY;
             }
+        }
+    }
+
+    void multiPlayerPlay() {
+        if (hoveredOnColumn.isPresent()) {
+            for (int y = 0; y < state.length; y++) {
+                if (state[y][hoveredOnColumn.get()] == CellState.EMPTY) {
+                    state[y][hoveredOnColumn.get()] = currentPlayer;
+
+                    if (MatrixCalc.MatrixWin(state, currentPlayer)) {
+                        JOptionPane.showMessageDialog(null, this.currentPlayer + " WON!");
+                        resetGame();
+                    }
+                    switchPlayers();
+                    break;
+                }
+            }
+        }
+    }
+
+    void singlePlayerPlay() {
+        if (hoveredOnColumn.isPresent()) {
+            for (int y = 0; y < state.length; y++) {
+                if (state[y][hoveredOnColumn.get()] == CellState.EMPTY) {
+                    state[y][hoveredOnColumn.get()] = currentPlayer;
+
+                    if (MatrixCalc.MatrixWin(state, currentPlayer)) {
+                        JOptionPane.showMessageDialog(null, this.currentPlayer + " WON!");
+                        resetGame();
+                        return;
+                    }
+                    switchPlayers();
+
+                    aiPlay();
+                    if (MatrixCalc.MatrixWin(state, currentPlayer)) {
+                        JOptionPane.showMessageDialog(null, this.currentPlayer + " WON!");
+                        resetGame();
+                    }
+                    switchPlayers();
+                    break;
+                }
+            }
+        }
+    }
+
+    void aiPlay() {
+        switch (level) {
+            case EASY -> AI.easy(state, this.currentPlayer);
+            case MEDIUM -> AI.medium(state, this.currentPlayer);
+            case HARD -> AI.hard(state);
         }
     }
 
