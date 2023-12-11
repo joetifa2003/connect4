@@ -1,7 +1,11 @@
 package game;
 
 public class MatrixCalc {
+
     public static boolean MatrixWin(CellState[][] conMatrix ,CellState ceil) {
+
+    public static boolean MatrixWin([][] conMatrix) {
+
         //1st row
         // 1 1 1 1 0 0 0
         // 0 1 1 1 1 0 0
