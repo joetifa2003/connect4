@@ -54,7 +54,7 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
         this.mode = mode;
         this.level = level;
         switch (level) {
-            case HARD -> maxDepth = 6;
+            case HARD -> maxDepth = 5;
             case MEDIUM -> maxDepth = 3;
             case EASY -> maxDepth = 0;
         }
