@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import java.util.Optional;
 
 enum CellState {
@@ -41,10 +42,21 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
     GameMode mode;
     Level level;
 
+    CellState computerPlayer = CellState.RED;
+    CellState humanPlayer = CellState.YELLOW;
+    int maxDepth;
+
     MainEventListener(GameMode mode, Level level) {
         System.out.println(mode);
         this.mode = mode;
         this.level = level;
+        switch (level) {
+            case HARD -> maxDepth = 6;
+            case MEDIUM -> maxDepth = 3;
+            case EASY -> maxDepth = 0;
+        }
+        System.out.println(maxDepth);
+
         resetGame();
     }
 
@@ -201,7 +213,7 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
                 if (state[y][hoveredOnColumn.get()] == CellState.EMPTY) {
                     state[y][hoveredOnColumn.get()] = currentPlayer;
 
-                    if (MatrixCalc.MatrixWin(state, currentPlayer)) {
+                    if (MatrixCalc.MatrixWin(state)) {
                         JOptionPane.showMessageDialog(null, this.currentPlayer + " WON!");
                         resetGame();
                     }
@@ -216,21 +228,19 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
         if (hoveredOnColumn.isPresent()) {
             for (int y = 0; y < state.length; y++) {
                 if (state[y][hoveredOnColumn.get()] == CellState.EMPTY) {
-                    state[y][hoveredOnColumn.get()] = currentPlayer;
+                    state[y][hoveredOnColumn.get()] = humanPlayer;
 
-                    if (MatrixCalc.MatrixWin(state, currentPlayer)) {
-                        JOptionPane.showMessageDialog(null, this.currentPlayer + " WON!");
+                    if (MatrixCalc.MatrixWin(state)) {
+                        JOptionPane.showMessageDialog(null, humanPlayer + " WON!");
                         resetGame();
                         return;
                     }
-                    switchPlayers();
 
                     aiPlay();
-                    if (MatrixCalc.MatrixWin(state, currentPlayer)) {
-                        JOptionPane.showMessageDialog(null, this.currentPlayer + " WON!");
+                    if (MatrixCalc.MatrixWin(state)) {
+                        JOptionPane.showMessageDialog(null, computerPlayer + " WON!");
                         resetGame();
                     }
-                    switchPlayers();
                     break;
                 }
             }
@@ -238,10 +248,175 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
     }
 
     void aiPlay() {
-        switch (level) {
-            case EASY -> AI.easy(state, this.currentPlayer);
-            case MEDIUM -> AI.medium(state, this.currentPlayer);
-            case HARD -> AI.hard(state);
+        int move = findBestMove();
+        makeMove(move, computerPlayer);
+    }
+
+    int evaluateBoard() {
+        int score = 0;
+
+        final int ROWS = 6;
+        final int COLS = 7;
+
+        // Evaluate rows
+        for (int row = 0; row < ROWS; row++) {
+            for (int col = 0; col < COLS - 3; col++) {
+                score += evaluateLine(state[row][col], state[row][col + 1], state[row][col + 2], state[row][col + 3]);
+            }
+        }
+
+        // Evaluate columns
+        for (int col = 0; col < COLS; col++) {
+            for (int row = 0; row < ROWS - 3; row++) {
+                score += evaluateLine(state[row][col], state[row + 1][col], state[row + 2][col], state[row + 3][col]);
+            }
+        }
+
+        // Evaluate diagonals (positive slope)
+        for (int row = 0; row < ROWS - 3; row++) {
+            for (int col = 0; col < COLS - 3; col++) {
+                score += evaluateLine(state[row][col], state[row + 1][col + 1], state[row + 2][col + 2], state[row + 3][col + 3]);
+            }
+        }
+
+        // Evaluate diagonals (negative slope)
+        for (int row = 3; row < ROWS; row++) {
+            for (int col = 0; col < COLS - 3; col++) {
+                score += evaluateLine(state[row][col], state[row - 1][col + 1], state[row - 2][col + 2], state[row - 3][col + 3]);
+            }
+        }
+
+        return score;
+    }
+
+
+    private int evaluateLine(CellState cell1, CellState cell2, CellState cell3, CellState cell4) {
+        int score = 0;
+
+        int playerCount = 0;
+        int opponentCount = 0;
+        int emptyCount = 0;
+
+        CellState[] cells = {cell1, cell2, cell3, cell4};
+
+        for (CellState cell : cells) {
+            if (cell == humanPlayer) {
+                playerCount++;
+            } else if (cell == computerPlayer) {
+                opponentCount++;
+            } else {
+                emptyCount++;
+            }
+        }
+
+        // Winning state for the player
+        if (playerCount == 4) {
+            score += 10000;
+        }
+        // Three in a row for the player
+        else if (playerCount == 3 && emptyCount == 1) {
+            score += 100;
+        }
+        // Two in a row for the player
+        else if (playerCount == 2 && emptyCount == 2) {
+            score += 10;
+        }
+
+        // Winning state for the opponent
+        if (opponentCount == 4) {
+            score -= 10000;
+        }
+        // Three in a row for the opponent
+        else if (opponentCount == 3 && emptyCount == 1) {
+            score -= 100;
+        }
+        // Two in a row for the opponent
+        else if (opponentCount == 2 && emptyCount == 2) {
+            score -= 10;
+        }
+
+        return score;
+    }
+
+    public int minimax(int depth, boolean maximizingPlayer) {
+        int score;
+
+        int result = evaluateBoard(); // Implement your own board evaluation function
+
+        if (depth == 0 || isGameOver()) {
+            return result;
+        }
+
+        if (maximizingPlayer) {
+            score = Integer.MIN_VALUE;
+            for (int move : getAvailableMoves()) {
+                makeMove(move, humanPlayer);
+                score = Math.max(score, minimax(depth - 1, false));
+                undoMove(move);
+            }
+            return score;
+        } else {
+            score = Integer.MAX_VALUE;
+            for (int move : getAvailableMoves()) {
+                makeMove(move, computerPlayer);
+                score = Math.min(score, minimax(depth - 1, true));
+                undoMove(move);
+            }
+            return score;
+        }
+    }
+
+    public int findBestMove() {
+        int bestMove = -1;
+        int bestScore = Integer.MAX_VALUE;
+
+        for (Integer move : getAvailableMoves()) {
+            makeMove(move, computerPlayer);
+            int score = minimax(maxDepth, true);
+            undoMove(move);
+
+            if (score < bestScore) {
+                bestScore = score;
+                bestMove = move;
+            }
+        }
+
+        return bestMove;
+    }
+
+    ArrayList<Integer> getAvailableMoves() {
+        ArrayList<Integer> moves = new ArrayList<Integer>();
+        for (int x = 0; x < 7; x++) {
+            for (int y = 0; y < 6; y++) {
+                if (state[y][x] == CellState.EMPTY) {
+                    moves.add(x);
+                    break;
+                }
+            }
+        }
+
+        return moves;
+    }
+
+    boolean isGameOver() {
+        return MatrixCalc.MatrixWin(state);
+    }
+
+    void makeMove(int col, CellState v) {
+        for (int y = 0; y < 6; y++) {
+            if (state[y][col] == CellState.EMPTY) {
+                state[y][col] = v;
+                return;
+            }
+        }
+    }
+
+    void undoMove(int col) {
+        for (int y = 5; y >= 0; y--) {
+            if (state[y][col] != CellState.EMPTY) {
+                state[y][col] = CellState.EMPTY;
+                return;
+            }
         }
     }
 
