@@ -1,15 +1,18 @@
 package game;
 
+import Texture.TextureReader;
 import helper.Vector;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
+import javax.media.opengl.glu.GLU;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
@@ -47,6 +50,13 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
     CellState humanPlayer = CellState.YELLOW;
     int maxDepth;
 
+    private final String[] textureNames = {
+            "Assets//red-coin.png",
+            "Assets//yellow-coin.png",
+            "Assets//arrow-red.png",
+    };
+    private final int[] textures = new int[textureNames.length];
+
     Random rndm = new Random();
 
     MainEventListener(GameMode mode, Level level) {
@@ -67,10 +77,11 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
     public void init(GLAutoDrawable glAutoDrawable) {
         GL gl = glAutoDrawable.getGL();
 
-        gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         gl.glMatrixMode(GL.GL_PROJECTION);
-        gl.glLoadIdentity();
         gl.glOrtho(0.0, 1280.0, 0.0, 720.0, -1.0, 1.0);
+        gl.glEnable(GL.GL_TEXTURE_2D);  // Enable Texture Mapping
+        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
         stop.setFocusable(true);
         stop.setFocusTraversalKeysEnabled(true);
@@ -80,6 +91,26 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
         stop.setBackground(Color.BLACK);
         stop.setBounds(20, 20, 100, 100);
         stop.addMouseListener(this);
+
+        gl.glGenTextures(textureNames.length, textures, 0);
+        for (int i = 0; i < textureNames.length; i++) {
+            try {
+                TextureReader.Texture texture = TextureReader.readTexture(textureNames[i], true);
+                gl.glBindTexture(GL.GL_TEXTURE_2D, textures[i]);
+
+                new GLU().gluBuild2DMipmaps(
+                        GL.GL_TEXTURE_2D,
+                        GL.GL_RGBA, // Internal Texel Format,
+                        texture.getWidth(), texture.getHeight(),
+                        GL.GL_RGBA, // External format from image,
+                        GL.GL_UNSIGNED_BYTE,
+                        texture.getPixels() // Imagedata
+                );
+            } catch (IOException e) {
+                System.out.println(e);
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -114,22 +145,20 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
                 gl.glColor3d(1, 1, 1);
                 if (hoveredOnColumn.orElse(-1) == x) {
                     gl.glColor3d(1, 1, 0);
-                    drawTri(gl, new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, CELL_SIZE + 6.5 * CELL_SIZE), CELL_SIZE);
+                    Renderer.drawTexture(gl, textures[2], new Vector(CELL_SIZE, CELL_SIZE), new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, CELL_SIZE + 6.5 * CELL_SIZE));
                 }
 
                 Vector cellPos = new Vector(x * CELL_SIZE + 4.5 * CELL_SIZE, y * CELL_SIZE + 1.5 * CELL_SIZE);
-                drawRect(gl, cellPos, CELL_SIZE);
                 gl.glColor3d(1, 1, 1);
+                drawRect(gl, cellPos, CELL_SIZE);
 
                 boolean drawCoin = cell != CellState.EMPTY;
                 if (drawCoin) {
                     if (cell == CellState.YELLOW) {
-                        gl.glColor3d(1, 1, 0);
+                        Renderer.drawTexture(gl, textures[1], new Vector(CELL_SIZE, CELL_SIZE), cellPos);
                     } else if (cell == CellState.RED) {
-                        gl.glColor3d(1, 0, 0);
+                        Renderer.drawTexture(gl, textures[0], new Vector(CELL_SIZE, CELL_SIZE), cellPos);
                     }
-
-                    drawCircle(gl, cellPos.add(new Vector(40, 40)), CELL_SIZE / 2.5);
                 }
             }
         }
@@ -184,6 +213,11 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
             singlePlayerPlay();
         } else {
             multiPlayerPlay();
+        }
+
+        if (getAvailableMoves().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "DRAW");
+            resetGame();
         }
     }
 
