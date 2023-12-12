@@ -61,18 +61,8 @@ public class Main extends JFrame {
             canvas.setFocusTraversalKeysEnabled(true);
 
             //addTimer
-            JLabel jLabel1 = new JLabel("Time");
-            el.jLabel = new JLabel(el.minutes + " : " + el.seconds);
-            el.jLabel.setFont(new Font("Bold", 100, 100));
-            jLabel1.setFont(new Font("Bold", 100, 72));
-            jLabel1.setBounds(100, 170, 250, 200);
-            el.jLabel.setBounds(100, 300, 250, 200);
-            contentPanel2.setBackground(Color.BLACK);
-            contentPanel.setBackground(Color.BLACK);
-            jLabel1.setForeground(Color.WHITE);
-            el.jLabel.setForeground(Color.WHITE);
-            contentPanel.add(el.jLabel);
-            contentPanel2.add(jLabel1);
+
+
             contentPanel.add(canvas);
             contentPanel2.add(canvas);
 

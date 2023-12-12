@@ -7,14 +7,11 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -74,16 +71,6 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
         System.out.println(maxDepth);
 
         resetGame();
-
-        try {
-            Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(new File("sound_conv.wav")));
-            clip.start();
-            clip.loop(-1);
-        } catch (Exception e) {
-            System.out.println(e);
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -96,14 +83,7 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
         gl.glEnable(GL.GL_TEXTURE_2D);  // Enable Texture Mapping
         gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
-        stop.setFocusable(true);
-        stop.setFocusTraversalKeysEnabled(true);
-        stop.setText("| |");
-        stop.setFont(new Font("Bold", 18, 72));
-        stop.setForeground(Color.yellow);
-        stop.setBackground(Color.BLACK);
-        stop.setBounds(20, 20, 100, 100);
-        stop.addMouseListener(this);
+
 
         gl.glGenTextures(textureNames.length, textures, 0);
         for (int i = 0; i < textureNames.length; i++) {

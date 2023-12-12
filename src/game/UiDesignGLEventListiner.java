@@ -23,10 +23,10 @@ public class UiDesignGLEventListiner extends JFrame {
     Mouse m2 = new Mouse();
     JFrame jFrame = new JFrame();
 
-    JButton buttonStart, buttonInfo, buttonCancel, //page1
+    JButton buttonStart, buttonInfo,buttonInfoBack, buttonCancel, //page1
             buttonSinglePlayer, buttonMultiPlayer, buttonCancel1,   //page2
             buttonEasy, buttonMedium, buttonHard, buttonCancel2
-            ,buttonListen         ;        //page3
+            ,buttonListen;        //page3
 
     ImageIcon image;
     int i=0;
@@ -61,6 +61,7 @@ public class UiDesignGLEventListiner extends JFrame {
         buttonSinglePlayer = new JButton();
         buttonMultiPlayer = new JButton();
         buttonListen=new JButton();
+        buttonInfoBack=new JButton("Back");
 
         try {
             image = new ImageIcon(getClass().getResource("..//Assets//connect4.jpg"));
@@ -253,9 +254,9 @@ public class UiDesignGLEventListiner extends JFrame {
             buttonCancel1.setBounds(0, 30, 250, 200);
 
 
-            buttonSinglePlayer.addMouseListener(m2);
-            buttonMultiPlayer.addMouseListener(m2);
-            buttonCancel1.addMouseListener(m2);
+            buttonSinglePlayer.addMouseListener(m1);
+            buttonMultiPlayer.addMouseListener(m1);
+            buttonCancel1.addMouseListener(m1);
         }
 
         if (page == Page.PAGE_3) {
@@ -290,10 +291,10 @@ public class UiDesignGLEventListiner extends JFrame {
             buttonCancel2.setBounds(0, 30, 250, 200);
 
 
-            buttonEasy.addMouseListener(m2);
-            buttonMedium.addMouseListener(m2);
-            buttonHard.addMouseListener(m2);
-            buttonCancel2.addMouseListener(m2);
+            buttonEasy.addMouseListener(m1);
+            buttonMedium.addMouseListener(m1);
+            buttonHard.addMouseListener(m1);
+            buttonCancel2.addMouseListener(m1);
         }
 
         if (mode == GameMode.MULTI) {
@@ -321,6 +322,14 @@ public class UiDesignGLEventListiner extends JFrame {
             displayField.add(jPanel);
             jPanel.setBounds(300, 100, 800, 800);
             jPanel.setLayout(null);
+            jPanel.add(buttonInfoBack);
+            buttonInfoBack.setBounds(100,400,100,100);
+            buttonInfoBack.addMouseListener(m1);
+
+            buttonInfoBack.setBackground(new Color(50,50,205));
+            buttonInfoBack.setForeground(Color.white);
+            buttonInfoBack.setFocusable(true);
+            buttonInfoBack.setFocusTraversalKeysEnabled(true);
             jPanel.setBackground(Color.BLACK);
             JLabel helpMessage1 = new JLabel();
             jPanel.add(helpMessage1);
@@ -364,17 +373,20 @@ public class UiDesignGLEventListiner extends JFrame {
                 m1.page=Page.PAGE_1;
                 System.out.println(url);
 
+
             }
 
 
             if (e.getSource() == buttonStart) {
                 page = Page.PAGE_2;
+
             }
             if (e.getSource() == buttonCancel) {
                 System.exit(EXIT_ON_CLOSE);
             }
             if (e.getSource() == buttonSinglePlayer) {
                 page = Page.PAGE_3;
+
                 mode = GameMode.SINGLE;
 
             }
@@ -402,6 +414,12 @@ public class UiDesignGLEventListiner extends JFrame {
             if (e.getSource() == buttonHard) {
                 level = Level.HARD;
             }
+            if(e.getSource()==buttonInfoBack){
+
+                page=Page.PAGE_1;
+                jPanel.setVisible(false);
+
+            }
 
             GamePlay(m1.page, mode, level);
         }
@@ -410,6 +428,7 @@ public class UiDesignGLEventListiner extends JFrame {
         @Override
         public void mouseEntered(MouseEvent e) {
             if (e.getSource() == buttonInfo) {
+                jPanel.setVisible(true);
                 buttonInfo.setBackground(new Color(0, 0, 255));
                 buttonInfo.setForeground(new Color(0, 255, 0));
                 page = Page.PAGE_INFO;
