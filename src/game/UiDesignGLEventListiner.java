@@ -15,6 +15,9 @@ enum Page {
     PAGE_INFO
 }
 
+
+
+
 public class UiDesignGLEventListiner extends JFrame {
     Mouse m1 = new Mouse();
     Mouse m2 = new Mouse();
@@ -22,9 +25,13 @@ public class UiDesignGLEventListiner extends JFrame {
 
     JButton buttonStart, buttonInfo, buttonCancel, //page1
             buttonSinglePlayer, buttonMultiPlayer, buttonCancel1,   //page2
-            buttonEasy, buttonMedium, buttonHard, buttonCancel2;        //page3
+            buttonEasy, buttonMedium, buttonHard, buttonCancel2
+            ,buttonListen         ;        //page3
 
     ImageIcon image;
+    int i=0;
+
+    String url="play.png";
 
     GameMode gameMode;
     Level level;
@@ -53,6 +60,7 @@ public class UiDesignGLEventListiner extends JFrame {
         buttonHard = new JButton();
         buttonSinglePlayer = new JButton();
         buttonMultiPlayer = new JButton();
+        buttonListen=new JButton();
 
         try {
             image = new ImageIcon(getClass().getResource("..//Assets//connect4.jpg"));
@@ -91,6 +99,10 @@ public class UiDesignGLEventListiner extends JFrame {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+        buttonListen.setOpaque(false);
+        buttonListen.setContentAreaFilled(false);
+        buttonListen.setBorderPainted(false);
+
 
         buttonInfo.setOpaque(false);
         buttonInfo.setContentAreaFilled(false);
@@ -160,11 +172,23 @@ public class UiDesignGLEventListiner extends JFrame {
     }
 
     public void GamePlay(Page page, GameMode mode, Level level) {
+
         if (page == Page.PAGE_1) {
+          m1.page=Page.PAGE_1;
+
+            try {
+                Image img = ImageIO.read(getClass().getResource("..//Assets//"+url));
+                buttonListen.setIcon(new ImageIcon(img));
+
+
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
             buttonStart.setVisible(true);
             buttonInfo.setVisible(true);
             buttonCancel.setVisible(true);
             displayField.setVisible(true);
+            buttonListen.setVisible(true);
 
             displayField.setLayout(null);
             displayField.setBackground(Color.BLACK);
@@ -183,19 +207,24 @@ public class UiDesignGLEventListiner extends JFrame {
             displayField.add(buttonStart);
             displayField.add(buttonInfo);
             displayField.add(buttonCancel);
+            displayField.add(buttonListen);
 
             buttonStart.setBounds(1000, 600, 230, 200);
             buttonInfo.setBounds(750, 30, 250, 200);
             buttonCancel.setBounds(0, 30, 250, 200);
+            buttonListen.setBounds(1150,30,250,200);
 
 
             buttonStart.addMouseListener(m1);
             buttonInfo.addMouseListener(m1);
             buttonCancel.addMouseListener(m1);
-
+            buttonListen.addMouseListener(m1);
+            buttonListen.setFocusable(true);
+             buttonListen.setFocusTraversalKeysEnabled(true);
         }
 
         if (page == Page.PAGE_2) {
+            m1.page=Page.PAGE_2;
             displayField.setVisible(true);
 
             buttonStart.setVisible(false);
@@ -209,6 +238,7 @@ public class UiDesignGLEventListiner extends JFrame {
             buttonHard.setVisible(false);
             buttonCancel2.setVisible(false);
             displayField.setLayout(null);
+            buttonListen.setVisible(false);
 
             displayField.setBackground(Color.RED);
 
@@ -229,6 +259,7 @@ public class UiDesignGLEventListiner extends JFrame {
         }
 
         if (page == Page.PAGE_3) {
+            m1.page=Page.PAGE_3;
             displayField.setVisible(true);
             buttonStart.setVisible(false);
             buttonInfo.setVisible(false);
@@ -241,6 +272,7 @@ public class UiDesignGLEventListiner extends JFrame {
             buttonMedium.setVisible(true);
             buttonHard.setVisible(true);
             buttonCancel2.setVisible(true);
+            buttonListen.setVisible(false);
 
             displayField.setLayout(null);
 
@@ -324,6 +356,17 @@ public class UiDesignGLEventListiner extends JFrame {
 
         @Override
         public void mouseClicked(MouseEvent e) {
+
+            if(e.getSource()==buttonListen){
+                if(url=="off.png")
+                {url="play.png";}
+                else{url="off.png";}
+                m1.page=Page.PAGE_1;
+                System.out.println(url);
+
+            }
+
+
             if (e.getSource() == buttonStart) {
                 page = Page.PAGE_2;
             }
@@ -360,7 +403,7 @@ public class UiDesignGLEventListiner extends JFrame {
                 level = Level.HARD;
             }
 
-            GamePlay(page, mode, level);
+            GamePlay(m1.page, mode, level);
         }
 
 
