@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 
 enum CellState {
     EMPTY,
@@ -45,6 +46,8 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
     CellState computerPlayer = CellState.RED;
     CellState humanPlayer = CellState.YELLOW;
     int maxDepth;
+
+    Random rndm = new Random();
 
     MainEventListener(GameMode mode, Level level) {
         System.out.println(mode);
@@ -248,8 +251,13 @@ public class MainEventListener implements GLEventListener, MouseMotionListener, 
     }
 
     void aiPlay() {
-        int move = findBestMove();
-        makeMove(move, computerPlayer);
+        if (level == Level.EASY) {
+            ArrayList<Integer> moves = getAvailableMoves();
+            makeMove(moves.get(rndm.nextInt(0, moves.size() - 1)), computerPlayer);
+        } else {
+            int move = findBestMove();
+            makeMove(move, computerPlayer);
+        }
     }
 
     int evaluateBoard() {
